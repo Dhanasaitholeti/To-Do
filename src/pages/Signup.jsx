@@ -1,6 +1,7 @@
 import { Button, Container, Heading, Input, InputGroup, Spinner, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import {  useState } from "react";
+import {servers} from "../config/serverconfig"
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
@@ -30,7 +31,7 @@ const Signup = () => {
 
     const signupform = () =>{
         setIsLoading(true)
-        axios.post('http://localhost:8080/user/signup',
+        axios.post(servers.Signup,
         {
             Name:signupdata.Name,
             Email:signupdata.Email,
@@ -71,7 +72,7 @@ const Signup = () => {
             size="xl"
             color="blue"
             />
-            <h3 >Logging in...</h3>
+            <h3 >loading...</h3>
             </Container>
 
 

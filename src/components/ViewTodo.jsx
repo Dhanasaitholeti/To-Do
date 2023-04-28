@@ -1,5 +1,4 @@
-import { Card, CardBody, CardFooter, CardHeader, SimpleGrid } from "@chakra-ui/react";
-
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Divider, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 
 
 const ViewTodo = ({data}) => {
@@ -10,11 +9,24 @@ const ViewTodo = ({data}) => {
             data.map((eachone)=>{
                 return (
                     <Card key={eachone.id} boxShadow="0 1px 1px black" borderTop={"5px solid blue"}>
-                        <CardHeader>{eachone.dueDate.slice(0,10)}</CardHeader>
-                        <CardBody>{eachone.Todo}</CardBody>
+                        <CardHeader>
+                            <Text fontWeight="bolder">status:{eachone.status}</Text>
+                            <Text fontWeight="bolder">priority:{eachone.priority}</Text>
+                        </CardHeader>
+
+                        <CardBody pt="0">
+                            <Text fontSize={"24px"} fontWeight="bold" noOfLines={[1, 2, 3]}>
+                                {eachone.Todo}
+                            </Text>
+                        </CardBody>
+
+                        <Divider />
                         <CardFooter>
-                            <p>{eachone.status}</p>
+                            <Text color="blue.700" fontWeight="bolder">
+                                Due: {eachone.dueDate.slice(0,10)}
+                                </Text>
                         </CardFooter>
+
                     </Card>
             )
         })

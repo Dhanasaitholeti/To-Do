@@ -15,12 +15,11 @@ import {
     Textarea,
     useToast
  } from "@chakra-ui/react";
- 
- 
 import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import { useCookies } from "react-cookie";
+import { servers } from "../config/serverconfig";
 
 const AddTodo = () => {
     const [isLoading,setIsLoading] = useState(false)
@@ -55,7 +54,7 @@ const AddTodo = () => {
 
     const handlesubmit = () =>{
         setIsLoading(true)
-        axios.post('http://localhost:8080/todo/add-todo',{
+        axios.post(servers.AddTodo,{
             todo:data.Todo,
             priority:data.priority,
             category:data.category,

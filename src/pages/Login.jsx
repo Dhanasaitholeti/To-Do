@@ -3,7 +3,7 @@ import axios from "axios";
 import {  useState } from "react";
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom";
-
+import {servers} from "../config/serverconfig"
 const Login = () => {
     const toast = useToast();
     const navigator = useNavigate();
@@ -31,7 +31,7 @@ const Login = () => {
 
     const LoginForm = () =>{
         setIsLoading(true)
-        axios.post('http://localhost:8080/user/login',
+        axios.post(servers.Login,
         {
             userEmail:logindata.Email,
             password:logindata.passwd           

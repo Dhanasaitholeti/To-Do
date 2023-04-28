@@ -4,6 +4,7 @@ import Error from "../components/Error"
 import Loading from "../components/Loading"
 import  {useCookies} from "react-cookie"
 import ViewTodo from "../components/ViewTodo";
+import { servers } from "../config/serverconfig";
 
 
 const Home = () => {
@@ -11,7 +12,7 @@ const Home = () => {
     const Token = Cookies.jwtToken;
 
     useEffect(()=>{
-            axios.get('http://localhost:8080/todo/get-todo',{
+            axios.get(servers.GetTodo,{
                     headers:{
                         contentType: 'application/json',
                         Authorization: `Bearer ${Token}` 
