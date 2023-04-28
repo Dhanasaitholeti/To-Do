@@ -10,15 +10,22 @@ import {
     Radio, 
     RadioGroup, 
     Select, 
+    Spinner, 
     Stack, 
-    Textarea
+    Textarea,
+    useToast
  } from "@chakra-ui/react";
-import { useState } from "react";
+ 
+ 
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import { useCookies } from "react-cookie";
 
 const AddTodo = () => {
+    const [isLoading,setIsLoading] = useState(false)
+
+    const toast = useToast();
     const [Cookies] = useCookies(['jwtToken']);
     const Token = Cookies.jwtToken;
     const navigator = useNavigate();
@@ -47,7 +54,7 @@ const AddTodo = () => {
 
 
     const handlesubmit = () =>{
-
+        setIsLoading(true)
         axios.post('http://localhost:8080/todo/add-todo',{
             todo:data.Todo,
             priority:data.priority,
@@ -60,9 +67,19 @@ const AddTodo = () => {
                     }
             }).then((res) => {
                 console.log(res)
+                toast({
+                    title:"New ToDo Added!",
+                    isClosable:true,
+                    duration:3000,
+                    status:"success"                    
+                })
+                navigator(-1)
+
             }).catch((err) => {
                 console.log(err)
-            })
+            }).finally(()=>{
+            setIsLoading(false)
+        })  
     }
 
 
@@ -70,7 +87,20 @@ const AddTodo = () => {
         <Container display="flex" flexDir="column" gap="2vw" mt="2vw" >
 
             <Heading as="h2" align="center">Add A New Todo</Heading>
-            
+
+
+            <Container h={"50vh"} display={isLoading?"flex":"none"} flexDir="column" alignItems="center" justifyContent="center">
+            <Spinner 
+           
+            size="xl"
+            color="blue"
+            />
+            <h3 >loading...</h3>
+            </Container>
+
+
+            <Box display={isLoading?"none":"flex"} flexDir="column" gap="2vw" mt="2vw" >
+
             <Box>
             Todo:
             <Textarea onChange={handleonChange} name="Todo" />
@@ -100,6 +130,7 @@ const AddTodo = () => {
         <Button w="50%" colorScheme="green" onClick={handlesubmit}>Add</Button>
         <Button w="50%" colorScheme="red" onClick={handleClosebtn}>close</Button>
     </ButtonGroup>
+                </Box>
 
         </Container>
      );

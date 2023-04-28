@@ -1,10 +1,11 @@
-import { Button, Container, Heading, Input, InputGroup, Spinner, Text } from "@chakra-ui/react";
+import { Button, Container, Heading, Input, InputGroup, Spinner, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import {  useState } from "react";
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const toast = useToast();
     const navigator = useNavigate();
     const [cookies,setCookies] = useCookies(['jwtToken']);
     const [isLoading,setIsLoading] = useState(false)
@@ -41,9 +42,21 @@ const Login = () => {
             }
         }).then((res) => {
             console.log(res)
+            toast({
+                title:"Login sucessful!",
+                duration:5000,
+                isClosable:true,
+                status:"success"
+            })
             setCookies("jwtToken",res.data.Token)
             navigator('/dashboard')
         }).catch(err => {
+            toast({
+                title:"check your Credentials",
+                status: 'error',
+                isClosable: true,
+                duration: 5000
+            })
             console.log(err)
         }) .finally(()=>{
             setIsLoading(false)

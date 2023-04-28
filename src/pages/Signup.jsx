@@ -1,11 +1,13 @@
-import { Button, Container, Heading, Input, InputGroup, Text } from "@chakra-ui/react";
+import { Button, Container, Heading, Input, InputGroup, Spinner, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
 
+    const toast = useToast();
     const navigator = useNavigate();
+    const [isLoading,setIsLoading] = useState(false)
 
     const [signupdata,setSignupdata] = useState({
         Name:"",
@@ -27,7 +29,7 @@ const Signup = () => {
     }
 
     const signupform = () =>{
-
+        setIsLoading(true)
         axios.post('http://localhost:8080/user/signup',
         {
             Name:signupdata.Name,
@@ -39,17 +41,41 @@ const Signup = () => {
                 contentType: 'application/json'
             }
         }).then((res) => {
-            console.log(res)
+                toast({
+                    title:"registered succesfully",
+                    status:"success",
+                    isClosable: true,
+                    duration: 5000
+                })
             navigator('/')
         }).catch(err => {
             console.log(err)
-        })   
+            toast({
+                title:"check your Network",
+                status: 'error',
+                isClosable: true,
+                duration: 5000
+            })
+        }).finally(()=>{
+            setIsLoading(false)
+        })    
     }
 
     return ( 
        <Container bgColor="gray.200" mt="5%"  p="2vw" >
         <Heading as="h3" textAlign="center">Signup</Heading>
-        <InputGroup display="flex" flexDir="column" gap="2vw" p="5vw">
+
+        <Container h={"50vh"} display={isLoading?"flex":"none"} flexDir="column" alignItems="center" justifyContent="center">
+            <Spinner 
+           
+            size="xl"
+            color="blue"
+            />
+            <h3 >Logging in...</h3>
+            </Container>
+
+
+        <InputGroup display={isLoading?"none":"flex"} flexDir="column" gap="2vw" p="5vw">
             <Input name="Name" placeholder="name" onChange={handleonChange} />
             <Input name="Email" placeholder="Email" onChange={handleonChange} />
             <Input name="passwd" placeholder="Password" onChange={handleonChange}/>

@@ -47,7 +47,7 @@ const Home = () => {
        data.iserror?
         <Error />:
         data.isloading?<Loading />:
-        <ViewTodo data={data.data} />
+         data.data && <ViewTodo data={data.data} />
         }
         
         </>
