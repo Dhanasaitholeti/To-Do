@@ -1,6 +1,11 @@
+import { Container, Input, Textarea } from "@chakra-ui/react";
+
+
 const AddTodo = () => {
     return ( 
-        <h1>Add Todo</h1>
+        <Container>
+            <Textarea></Textarea>
+        </Container>
      );
 }
  
