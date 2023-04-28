@@ -9,7 +9,7 @@ const ViewTodo = ({data}) => {
         {
             data.map((eachone)=>{
                 return (
-                    <Card>
+                    <Card key={eachone.id}>
                         <CardHeader>{eachone.dueDate}</CardHeader>
                         <CardBody>{eachone.Todo}</CardBody>
                         <CardFooter>

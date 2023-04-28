@@ -13,12 +13,33 @@ import {
     Stack, 
     Textarea
  } from "@chakra-ui/react";
-
- import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"
+import { useCookies } from "react-cookie";
 
 const AddTodo = () => {
+    const [Cookies] = useCookies(['jwtToken']);
+    const Token = Cookies.jwtToken;
     const navigator = useNavigate();
+
+    const[data,setData] = useState({
+        Todo:"",
+        priority:"",
+        category:"",
+        dueDate:""
+    
+    })
+
+    console.log({...data})
+
+    const handleonChange = (e) => {
+        setData({
+            ...data,
+            [e.target.name]:e.target.value
+        })
+    } 
+
 
     const handleClosebtn = () => {
         navigator(-1)
@@ -27,25 +48,20 @@ const AddTodo = () => {
 
     const handlesubmit = () =>{
 
-        axios.get('http://localhost:8080/todo/add-todo',{},{
+        axios.post('http://localhost:8080/todo/add-todo',{
+            todo:data.Todo,
+            priority:data.priority,
+            category:data.category,
+            duedate:new Date(data.dueDate)
+        },{
                     headers:{
                         contentType: 'application/json',
                         Authorization: `Bearer ${Token}` 
                     }
             }).then((res) => {
-                console.log(res.data.tododata)
-                setData({
-                    data:res.data.tododata,
-                    isloading:false,
-                    iserror:false
-                })
+                console.log(res)
             }).catch((err) => {
-
-                setData({
-                    data:undefined,
-                    isloading:false,
-                    iserror:true
-                })
+                console.log(err)
             })
     }
 
@@ -57,26 +73,26 @@ const AddTodo = () => {
             
             <Box>
             Todo:
-            <Textarea />
+            <Textarea onChange={handleonChange} name="Todo" />
             </Box>
 
-            <Select placeholder="Select Priority">
+            <Select placeholder="Select Priority" onChange={handleonChange} name="priority">
                 <option value="high">High</option>
                 <option value="low">Low</option>
             </Select>
 
-            <RadioGroup display="flex" flexDir="row" justifyContent="space-evenly">
+            <RadioGroup display="flex" flexDir="row" justifyContent="space-evenly" >
             Category:
-            <Stack direction='row'>
-            <Radio value='Home'>Home</Radio>
-            <Radio value='Work'>Work</Radio>
-            <Radio value='Payments'>Payments</Radio>
+            <Stack direction='row' onChange={handleonChange}>
+            <Radio value='Home' name="category">Home</Radio>
+            <Radio value='Work' name="category">Work</Radio>
+            <Radio value='Payments' name="category">Payments</Radio>
             </Stack>
             </RadioGroup>
 
         <InputGroup>
             <InputLeftAddon children="DueDate" />
-            <Input type="Date"/>
+            <Input type="Date" onChange={handleonChange} name="dueDate" />
 
         </InputGroup>
 

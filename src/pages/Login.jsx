@@ -1,4 +1,4 @@
-import { Button, Container, Heading, Input, InputGroup, Spinner } from "@chakra-ui/react";
+import { Button, Container, Heading, Input, InputGroup, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
 import {  useState } from "react";
 import { useCookies } from "react-cookie"
@@ -21,6 +21,10 @@ const Login = () => {
             ...logindata,
             [e.target.name]:e.target.value
         })
+    }
+
+    const handlesignupclick = () => {
+        navigator('/signup')
     }
 
 
@@ -47,7 +51,7 @@ const Login = () => {
     }
 
     return ( 
-       <Container bgColor="gray.200" mt="5%"   >
+       <Container bgColor="gray.200" mt="5%" p="2vw"  >
 
         <Heading as="h3" textAlign="center">Login</Heading>
 
@@ -65,6 +69,7 @@ const Login = () => {
             <Input name="passwd" placeholder="Password" onChange={handleonChange}/>
             <Button onClick={LoginForm} w="30%">Login</Button>
         </InputGroup>
+        <Text>Don't have account?<a onClick={handlesignupclick}>signup</a></Text>
        </Container>
      );
 }
