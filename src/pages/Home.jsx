@@ -3,6 +3,9 @@ import axios from "axios";
 import Error from "../components/Error"
 import Loading from "../components/Loading"
 import  {useCookies} from "react-cookie"
+import ViewTodo from "../components/ViewTodo";
+
+
 const Home = () => {
     const [Cookies] = useCookies(['jwtToken']);
     const Token = Cookies.jwtToken;
@@ -42,9 +45,9 @@ const Home = () => {
         
        {
        data.iserror?
-           <Error />:
+        <Error />:
         data.isloading?<Loading />:
-        <div>data recieved</div>
+        <ViewTodo data={data.data} />
         }
         
         </>

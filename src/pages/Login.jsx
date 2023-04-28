@@ -46,7 +46,7 @@ const Login = () => {
 
     return ( 
        <Container bgColor="gray.200" mt="5%"   >
-        <Heading as="h3">Login</Heading>
+        <Heading as="h3" textAlign="center">Login</Heading>
         <InputGroup display="flex" flexDir="column" gap="2vw" p="5vw">
             <Input name="Email" placeholder="Email" onChange={handleonChange} />
             <Input name="passwd" placeholder="Password" onChange={handleonChange}/>
