@@ -13,8 +13,8 @@ import {
     Stack, 
     Textarea
  } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
+ import { useNavigate } from "react-router-dom";
 
 
 const AddTodo = () => {
@@ -27,7 +27,7 @@ const AddTodo = () => {
 
     const handlesubmit = () =>{
 
-        axios.get('http://localhost:8080/todo/get-todo',{
+        axios.get('http://localhost:8080/todo/add-todo',{},{
                     headers:{
                         contentType: 'application/json',
                         Authorization: `Bearer ${Token}` 
@@ -49,6 +49,7 @@ const AddTodo = () => {
             })
     }
 
+
     return ( 
         <Container display="flex" flexDir="column" gap="2vw" mt="2vw" >
 
@@ -67,20 +68,20 @@ const AddTodo = () => {
             <RadioGroup display="flex" flexDir="row" justifyContent="space-evenly">
             Category:
             <Stack direction='row'>
-            <Radio value='1'>Home</Radio>
-            <Radio value='2'>Work</Radio>
-            <Radio value='3'>Payments</Radio>
+            <Radio value='Home'>Home</Radio>
+            <Radio value='Work'>Work</Radio>
+            <Radio value='Payments'>Payments</Radio>
             </Stack>
             </RadioGroup>
 
         <InputGroup>
-            <InputLeftAddon children="Date" />
+            <InputLeftAddon children="DueDate" />
             <Input type="Date"/>
 
         </InputGroup>
 
     <ButtonGroup>
-        <Button w="50%" colorScheme="green">Add</Button>
+        <Button w="50%" colorScheme="green" onClick={handlesubmit}>Add</Button>
         <Button w="50%" colorScheme="red" onClick={handleClosebtn}>close</Button>
     </ButtonGroup>
 

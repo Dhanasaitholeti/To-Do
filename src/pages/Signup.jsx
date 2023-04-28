@@ -3,30 +3,32 @@ import axios from "axios";
 import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 const Signup = () => {
+
     const navigator = useNavigate();
 
-    const [logindata,setLogindata] = useState({
+    const [signupdata,setSignupdata] = useState({
         Name:"",
         Email:"",
         passwd:""
     })
-    console.log({...logindata})
+    console.log({...signupdata})
    
 
     const handleonChange = (e) => {
-        setLogindata({
-            ...logindata,
+        setSignupdata({
+            ...signupdata,
             [e.target.name]:e.target.value
         })
     }
 
 
-    const LoginForm = () =>{
+    const signupform = () =>{
 
-        axios.post('http://localhost:8080/user/login',
+        axios.post('http://localhost:8080/user/signup',
         {
-            userEmail:logindata.Email,
-            password:logindata.passwd           
+            Name:signupdata.Name,
+            Email:signupdata.Email,
+            passwd:signupdata.passwd           
         },
         {
             headers:{
@@ -34,14 +36,11 @@ const Signup = () => {
             }
         }).then((res) => {
             console.log(res)
-            setCookies("jwtToken",res.data.Token)
-            navigator('/dashboard')
+            navigator('/')
         }).catch(err => {
             console.log(err)
         })   
     }
-
-
 
     return ( 
        <Container bgColor="gray.200" mt="5%"   >
@@ -50,7 +49,7 @@ const Signup = () => {
             <Input name="Name" placeholder="name" onChange={handleonChange} />
             <Input name="Email" placeholder="Email" onChange={handleonChange} />
             <Input name="passwd" placeholder="Password" onChange={handleonChange}/>
-            <Button onClick={LoginForm} w="30%">signup</Button>
+            <Button onClick={signupform} w="30%">signup</Button>
         </InputGroup>
        </Container>
      );
