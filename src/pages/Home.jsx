@@ -8,8 +8,14 @@ import { servers } from "../config/serverconfig";
 
 
 const Home = () => {
+
     const [Cookies] = useCookies(['jwtToken']);
     const Token = Cookies.jwtToken;
+    const [data,setData] = useState({
+        data:undefined,
+        isloading:true,
+        iserror:false
+    });
 
     useEffect(()=>{
             axios.get(servers.GetTodo,{
@@ -18,12 +24,12 @@ const Home = () => {
                         Authorization: `Bearer ${Token}` 
                     }
             }).then((res) => {
-                console.log(res.data.tododata)
                 setData({
                     data:res.data.tododata,
                     isloading:false,
                     iserror:false
                 })
+
             }).catch((err) => {
                 setData({
                     data:undefined,
@@ -31,14 +37,10 @@ const Home = () => {
                     iserror:true
                 })
             })
-    },[])
+    },[data.data]
+    )
 
 
-    const [data,setData] = useState({
-        data:undefined,
-        isloading:true,
-        iserror:false
-    });
     
 
     return ( 

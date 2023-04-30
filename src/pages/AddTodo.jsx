@@ -34,7 +34,6 @@ const AddTodo = () => {
         priority:"",
         category:"",
         dueDate:""
-    
     })
 
     console.log({...data})
