@@ -36,7 +36,6 @@ const AddTodo = () => {
         dueDate:""
     })
 
-    console.log({...data})
 
     const handleonChange = (e) => {
         setData({
@@ -53,6 +52,7 @@ const AddTodo = () => {
 
     const handlesubmit = () =>{
         setIsLoading(true)
+        
         axios.post(servers.AddTodo,{
             todo:data.Todo,
             priority:data.priority,
@@ -76,6 +76,7 @@ const AddTodo = () => {
             }).catch((err) => {
                 console.log(err)
             }).finally(()=>{
+
             setIsLoading(false)
         })  
     }

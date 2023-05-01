@@ -5,17 +5,19 @@ import Loading from "../components/Loading"
 import  {useCookies} from "react-cookie"
 import ViewTodo from "../components/ViewTodo";
 import { servers } from "../config/serverconfig";
-
+import { useSelector , useDispatch } from "react-redux";
+import { setServerData } from "../redux/ducks/serverData";
 
 const Home = () => {
-
+    const dispatcher = useDispatch()
     const [Cookies] = useCookies(['jwtToken']);
     const Token = Cookies.jwtToken;
-    const [data,setData] = useState({
-        data:undefined,
-        isloading:true,
-        iserror:false
-    });
+
+    const data = useSelector(state => state.ServerData.TodoData)
+    const isloading = useSelector(state => state.ServerData.isLoading)
+    const iserror = useSelector(state => state.ServerData.isError)
+
+    console.log(data , isloading, iserror)
 
     useEffect(()=>{
             axios.get(servers.GetTodo,{
@@ -24,21 +26,21 @@ const Home = () => {
                         Authorization: `Bearer ${Token}` 
                     }
             }).then((res) => {
-                setData({
-                    data:res.data.tododata,
-                    isloading:false,
-                    iserror:false
-                })
+                dispatcher(setServerData({
+                    tododata:res.data.tododata,
+                    err:false,
+                    loading:false
+                }))
 
             }).catch((err) => {
-                setData({
+                dispatcher(setServerData({
                     data:undefined,
-                    isloading:false,
-                    iserror:true
-                })
+                    err:true,
+                    loading:false
+                }))
+
             })
-    },[data.data]
-    )
+    },[])
 
 
     
@@ -47,10 +49,10 @@ const Home = () => {
         <>
         
        {
-       data.iserror?
+       iserror?
         <Error />:
-        data.isloading?<Loading />:
-         data.data && <ViewTodo data={data.data} />
+        isloading?<Loading />:
+         data && <ViewTodo data={data} />
         }
         
         </>

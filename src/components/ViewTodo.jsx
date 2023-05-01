@@ -2,10 +2,11 @@ import { Box, Button, Card, CardBody, CardFooter, CardHeader, Divider, Heading, 
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { servers } from "../config/serverconfig";
-
+import { useDispatch } from "react-redux";
+import { setServerData } from "../redux/ducks/serverData";
 
 const ViewTodo = ({data }) => {
-
+    const dispatcher = useDispatch();
     
 
     const toast = useToast();
@@ -26,7 +27,12 @@ const ViewTodo = ({data }) => {
                 contentType: 'application/json',
                 Authorization: `Bearer ${token}`
             }
-        }).then(()=>{
+        }).then((res)=>{
+            dispatcher(setServerData({
+                tododata:res.data.updateddata,
+                err:false,
+                loading:false
+            }))
             toast({
                 title:"updated succesfully",
                 duration:3000,
@@ -34,6 +40,11 @@ const ViewTodo = ({data }) => {
                 status:"success"
             })
         }).catch(()=>{
+            dispatcher(setServerData({
+                data:undefined,
+                err:true,
+                loading:false
+            }))
             toast({
                 title:"unable to delete",
                 status:"error",
@@ -50,14 +61,22 @@ const ViewTodo = ({data }) => {
                 Authorization: `Bearer ${token}`
             }
         })
-        .then(()=>{
+        .then((res)=>{
+            console.log(res)
+            dispatcher(setServerData({
+                tododata:res.data.updateddata,
+                err:false,
+                loading:false
+            }))
             toast({
                 title:"Deleted successfully",
                 status:"success",
                 duration:3000,
                 isClosable:true
             })
-        }).catch(()=>{
+        })
+        .catch((err)=>{
+            console.log(err)
             toast({
                 title:"unable to delete",
                 status:"error",
