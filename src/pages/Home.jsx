@@ -17,7 +17,6 @@ const Home = () => {
     const isloading = useSelector(state => state.ServerData.isLoading)
     const iserror = useSelector(state => state.ServerData.isError)
 
-    console.log(data , isloading, iserror)
 
     useEffect(()=>{
             axios.get(servers.GetTodo,{

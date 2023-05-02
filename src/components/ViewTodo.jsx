@@ -62,7 +62,6 @@ const ViewTodo = ({data }) => {
             }
         })
         .then((res)=>{
-            console.log(res)
             dispatcher(setServerData({
                 tododata:res.data.updateddata,
                 err:false,
@@ -92,7 +91,7 @@ const ViewTodo = ({data }) => {
 
     return ( 
         <>
-        <SimpleGrid columns={{base:2,md:3,xl:4}} p="3vw" gap={"20px"}>
+        <SimpleGrid columns={{base:2,md:3,xl:5}} p="3vw" gap={"20px"}>
         {
             data.map((eachone)=>{
                 return (

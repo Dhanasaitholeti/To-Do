@@ -64,7 +64,6 @@ const AddTodo = () => {
                         Authorization: `Bearer ${Token}` 
                     }
             }).then((res) => {
-                console.log(res)
                 toast({
                     title:"New ToDo Added!",
                     isClosable:true,
